@@ -37,6 +37,7 @@ df_2 = client.query(query).to_dataframe()
 # Build the layout for the Dash app
 
 app = dash.Dash(__name__)
+server = app.server
 
 app.layout = html.Div(children=[
     dcc.Graph(
