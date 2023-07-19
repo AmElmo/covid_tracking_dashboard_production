@@ -11,6 +11,7 @@ import google.oauth2.service_account
 
 key_path = "my_app/covid-dashboard-378011-d39bea98e1ae.json"
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = key_path
+credentials = google.oauth2.service_account.Credentials.from_service_account_file(key_path)
 
 client = bigquery.Client(location="US", project="covid-dashboard-378011")
 
