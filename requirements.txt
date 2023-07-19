@@ -6,3 +6,4 @@ pandas-gbq==0.15.0
 requests==2.26.0
 google-api-python-client==2.20.0
 gunicorn
+pyarrow
