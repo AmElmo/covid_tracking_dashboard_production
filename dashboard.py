@@ -5,15 +5,15 @@ from dash.dependencies import Input, Output
 import pandas as pd
 from google.cloud import bigquery
 import os
+import json
 import google.auth
 import google.auth.transport.requests
 import google.oauth2.service_account
 
-key_path = "covid-dashboard-378011-d39bea98e1ae.json"
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = key_path
-credentials = google.oauth2.service_account.Credentials.from_service_account_file(key_path)
+service_account_key = json.loads(os.environ['GOOGLE_SERVICE_ACCOUNT_KEY'])
+credentials = google.oauth2.service_account.Credentials.from_service_account_info(service_account_key)
 
-client = bigquery.Client(location="US", project="covid-dashboard-378011")
+client = bigquery.Client(location="US", project="covid-dashboard-378011", credentials=credentials)
 
 bigquery_ref = 'covid-dashboard-378011.covid_data_script'
 
