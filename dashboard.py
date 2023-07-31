@@ -58,7 +58,7 @@ app.layout = html.Div(children=[
         id='line-chart',
         figure={
             'data': [
-                go.Scatter(x=df['X'], y=df['Y'], mode='lines', name='Line Chart')
+                go.Scatter(x=df_2['Date_reported'], y=df_2['New_cases'], mode='lines', name='Line Chart')
             ],
         'layout': {
             'title': 'My Line Chart Title'
