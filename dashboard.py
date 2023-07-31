@@ -59,7 +59,10 @@ app.layout = html.Div(children=[
         figure={
             'data': [
                 go.Scatter(x=df['X'], y=df['Y'], mode='lines', name='Line Chart')
-            ]
+            ],
+        'layout': {
+            'title': 'My Line Chart Title'
+        }
         }
     ),
     dcc.Graph(
@@ -67,7 +70,10 @@ app.layout = html.Div(children=[
         figure={
             'data': [
                 go.Bar(x=df['Category'], y=df['Value'], name='Bar Chart')
-            ]
+            ],
+        'layout': {
+            'title': 'My Line Chart Title'
+        }
         }
     ),
     dcc.Graph(
@@ -75,7 +81,10 @@ app.layout = html.Div(children=[
         figure={
             'data': [
                 go.Scatter(x=df['X'], y=df['Y'], mode='markers', name='Scatter Plot')
-            ]
+            ],
+        'layout': {
+            'title': 'My Line Chart Title'
+        }
         }
     ),
     dcc.Graph(
@@ -83,7 +92,10 @@ app.layout = html.Div(children=[
         figure={
             'data': [
                 go.Histogram(x=df['Value'], name='Histogram')
-            ]
+            ],
+            'layout': {
+            'title': 'My Line Chart Title'
+        }
         }
     ),
     dcc.Graph(
@@ -91,7 +103,10 @@ app.layout = html.Div(children=[
         figure={
             'data': [
                 go.Pie(labels=df['Category'], values=df['Value'], name='Pie Chart')
-            ]
+            ],
+        'layout': {
+            'title': 'My Line Chart Title'
+        }
         }
     ),
     dcc.Graph(
@@ -99,7 +114,10 @@ app.layout = html.Div(children=[
         figure={
             'data': [
                 go.Box(x=df['Category'], y=df['Value'], name='Box Plot')
-            ]
+            ],
+        'layout': {
+            'title': 'My Line Chart Title'
+        }
         }
     ),
     dcc.Graph(
@@ -107,15 +125,22 @@ app.layout = html.Div(children=[
         figure={
             'data': [
                 go.Heatmap(z=df.corr(), x=df.columns, y=df.columns, name='Heatmap')
-            ]
+            ],
+        'layout': {
+            'title': 'My Line Chart Title'
+        }
         }
     ),
     dcc.Graph(
-        id='violin-plot',
+        id='bubble-chart',
         figure={
             'data': [
-                go.Violin(y=df['Value'], x=df['Category'], name='Violin Plot')
-            ]
+                go.Scatter(x=df['X'], y=df['Y'], mode='markers',
+                           marker=dict(size=df['Value']*100), name='Bubble Chart')  # Size of bubbles is scaled by 'Value'
+            ],
+        'layout': {
+            'title': 'My Line Chart Title'
+        }
         }
     ),
     dcc.Graph(
@@ -123,7 +148,10 @@ app.layout = html.Div(children=[
         figure={
             'data': [
                 go.Scatter(x=df['X'], y=df['Y'], mode='lines', fill='tozeroy', name='Area Chart')
-            ]
+            ],
+        'layout': {
+            'title': 'My Line Chart Title'
+        }
         }
     ),
 ])
