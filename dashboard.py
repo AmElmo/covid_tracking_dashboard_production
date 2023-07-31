@@ -51,6 +51,8 @@ df = pd.DataFrame({
 
 # Define the layout
 app = dash.Dash(__name__)
+server = app.server
+
 app.layout = html.Div(children=[
     dcc.Graph(
         id='line-chart',
