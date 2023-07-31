@@ -29,10 +29,17 @@ FROM {bigquery_ref}.`cum_caseslatest`
 df_1 = client.query(query).to_dataframe()
 
 query = f"""
-SELECT *
-FROM {bigquery_ref}.`evol_casesalltime`
-WHERE Country = 'United States of America'
-ORDER BY Date_reported ASC;
+SELECT
+    EXTRACT(WEEK FROM Date_reported) AS week,
+    SUM(cases) as total_cases
+FROM
+    `{bigquery_ref}.evol_casesalltime`
+WHERE
+    Country = 'United States of America'
+GROUP BY
+    week
+ORDER BY
+    week ASC;
 """
 df_2 = client.query(query).to_dataframe()
 
@@ -61,7 +68,7 @@ app.layout = html.Div(children=[
                 go.Scatter(x=df_2['Date_reported'], y=df_2['New_cases'], mode='lines', name='Line Chart')
             ],
         'layout': {
-            'title': 'My Line Chart Title'
+            'title': 'USA - Evolution of cases (Weekly))'
         }
         }
     ),
