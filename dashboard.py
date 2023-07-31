@@ -65,7 +65,7 @@ app.layout = html.Div(children=[
         id='line-chart',
         figure={
             'data': [
-                go.Scatter(x=df_2['Date_reported'], y=df_2['New_cases'], mode='lines', name='Line Chart')
+                go.Scatter(x=df_2['week'], y=df_2['total_cases'], mode='lines', name='Line Chart')
             ],
         'layout': {
             'title': 'USA - Evolution of cases (Weekly))'
