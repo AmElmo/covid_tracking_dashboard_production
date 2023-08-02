@@ -82,7 +82,7 @@ app.layout = html.Div(children=[
         }
     ),
     dcc.Graph(
-    id='line-chart',
+    id='line-chart2',
     figure={
         'data': [
             go.Scatter(
