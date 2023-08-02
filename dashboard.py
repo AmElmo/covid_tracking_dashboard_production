@@ -88,7 +88,7 @@ app.layout = html.Div(children=[
                 go.Scatter(x=df_1['week'], y=df_1['total_cases'], mode='lines', name='Line Chart')
             ],
         'layout': {
-            'title': 'USA - Evolution of cases (Weekly))'
+            'title': 'USA - Evolution of cases (Weekly)'
         }
         }
     ),
@@ -142,8 +142,6 @@ app.layout = html.Div(children=[
                     x=df_3['Country'],
                     y=df_3['Cum_deathslatest'],
                     name='Bar Chart',
-                    marker=dict(color='rgb(158,202,225)',
-                                line=dict(color='rgb(8,48,107)',width=1.5)),
                     hovertemplate =
                     '<i>Total deaths</i>: %{y}'+
                     '<br><b>Country</b>: %{x}<br>',
@@ -152,7 +150,7 @@ app.layout = html.Div(children=[
             ],
         'layout': {
             'title': {
-                'text': "Top cuntries with most cumulated deaths",
+                'text': "Top countries with most cumulated deaths",
                 'y':0.9,
                 'x':0.5,
                 'xanchor': 'center',
