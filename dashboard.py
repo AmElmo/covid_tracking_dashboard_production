@@ -48,7 +48,7 @@ WHERE
 GROUP BY
     week
 ORDER BY
-    week ASC;
+    week ASC
 LIMIT 1000 OFFSET 1;
 """
 df_2 = client.query(query).to_dataframe()
