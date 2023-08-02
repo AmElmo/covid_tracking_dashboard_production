@@ -262,51 +262,6 @@ app.layout = html.Div(children=[
             }
         }
     ),
-    dcc.Graph(
-        id='box-plot',
-        figure={
-            'data': [
-                go.Box(x=df['Category'], y=df['Value'], name='Box Plot')
-            ],
-        'layout': {
-            'title': 'My Line Chart Title'
-        }
-        }
-    ),
-    dcc.Graph(
-        id='heatmap',
-        figure={
-            'data': [
-                go.Heatmap(z=df.corr(), x=df.columns, y=df.columns, name='Heatmap')
-            ],
-        'layout': {
-            'title': 'My Line Chart Title'
-        }
-        }
-    ),
-    dcc.Graph(
-        id='bubble-chart',
-        figure={
-            'data': [
-                go.Scatter(x=df['X'], y=df['Y'], mode='markers',
-                           marker=dict(size=df['Value']*100), name='Bubble Chart')  # Size of bubbles is scaled by 'Value'
-            ],
-        'layout': {
-            'title': 'My Line Chart Title'
-        }
-        }
-    ),
-    dcc.Graph(
-        id='area-chart',
-        figure={
-            'data': [
-                go.Scatter(x=df['X'], y=df['Y'], mode='lines', fill='tozeroy', name='Area Chart')
-            ],
-        'layout': {
-            'title': 'My Line Chart Title'
-        }
-        }
-    ),
 ])
 
 if __name__ == '__main__':
