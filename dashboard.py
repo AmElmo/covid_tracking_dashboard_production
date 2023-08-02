@@ -40,7 +40,7 @@ df_1 = client.query(query).to_dataframe()
 query = f"""
 SELECT
     EXTRACT(WEEK FROM Date_reported) AS week,
-    SUM(cases) as total_deaths
+    SUM(Cumulative_deaths) as total_deaths
 FROM
     `{bigquery_ref}.evol_cumdeaths`
 WHERE
