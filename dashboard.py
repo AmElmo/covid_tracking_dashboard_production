@@ -138,17 +138,6 @@ app.layout = html.Div(children=[
         id='bar-chart',
         figure={
             'data': [
-                go.Bar(x=df_3['Country'], y=df_3['Cum_deathslatest'], name='Bar Chart')
-            ],
-        'layout': {
-            'title': 'My Line Chart Title'
-        }
-        }
-    ),
-    dcc.Graph(
-        id='bar-chart',
-        figure={
-            'data': [
                 go.Bar(
                     x=df_3['Country'],
                     y=df_3['Cum_deathslatest'],
@@ -163,7 +152,7 @@ app.layout = html.Div(children=[
             ],
         'layout': {
             'title': {
-                'text': "My Bar Chart Title",
+                'text': "Top cuntries with most cumulated deaths",
                 'y':0.9,
                 'x':0.5,
                 'xanchor': 'center',
