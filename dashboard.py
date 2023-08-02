@@ -63,6 +63,14 @@ LIMIT 15;
 """
 df_3 = client.query(query).to_dataframe()
 
+query = f"""
+SELECT *
+FROM
+    `{bigquery_ref}.top_15_new_cases_lastweek`
+ORDER BY
+    Incidence DESC
+"""
+df_4 = client.query(query).to_dataframe()
 
 # Build the layout for the Dash app
 # Create some random data
@@ -81,6 +89,8 @@ app = dash.Dash(__name__)
 server = app.server
 
 app.layout = html.Div(children=[
+    html.H1('COVID Dashboard (Real-Time from WHO)', style={'textAlign': 'center', 'padding': '15px'}),
+
     dcc.Graph(
         id='line-chart',
         figure={
@@ -175,25 +185,31 @@ app.layout = html.Div(children=[
         }
     ),
     dcc.Graph(
-        id='histogram',
-        figure={
-            'data': [
-                go.Histogram(x=df['Value'], name='Histogram')
-            ],
-            'layout': {
-            'title': 'My Line Chart Title'
-        }
-        }
-    ),
-    dcc.Graph(
         id='pie-chart',
         figure={
             'data': [
-                go.Pie(labels=df['Category'], values=df['Value'], name='Pie Chart')
+                go.Pie(
+                    labels=df_4['Country'],
+                    values=df_4['Incidence'],
+                    name='Pie Chart',
+                )
             ],
-        'layout': {
-            'title': 'My Line Chart Title'
-        }
+            'layout': {
+                'title': {
+                    'text': 'Incidence per Country',
+                    'y':0.9,
+                    'x':0.5,
+                    'xanchor': 'center',
+                    'yanchor': 'top',
+                    'font': dict(
+                        family="Courier New, monospace",
+                        size=24,
+                        color="#7f7f7f"
+                    )
+                },
+                'plot_bgcolor': 'white',
+                'showlegend': True
+            }
         }
     ),
     dcc.Graph(
