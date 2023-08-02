@@ -24,7 +24,7 @@ bigquery_ref = 'covid-dashboard-378011.covid_data_script'
 
 query = f"""
 SELECT
-    EXTRACT(WEEK FROM Date_reported) AS week,
+    DATE_SUB(DATE_TRUNC(Date_reported, WEEK), INTERVAL 1 DAY) AS week,
     SUM(New_cases) as total_cases
 FROM
     `{bigquery_ref}.evol_casesalltime`
@@ -39,7 +39,7 @@ df_1 = client.query(query).to_dataframe()
 
 query = f"""
 SELECT
-    EXTRACT(WEEK FROM Date_reported) AS week,
+    DATE_SUB(DATE_TRUNC(Date_reported, WEEK), INTERVAL 1 DAY) AS week,
     SUM(Cumulative_deaths) as total_deaths
 FROM
     `{bigquery_ref}.evol_cumdeaths`
