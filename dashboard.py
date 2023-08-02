@@ -23,8 +23,17 @@ bigquery_ref = 'covid-dashboard-378011.covid_data_script'
 # Query for the data
 
 query = f"""
-SELECT *
-FROM {bigquery_ref}.`cum_caseslatest`
+SELECT
+    EXTRACT(WEEK FROM Date_reported) AS week,
+    SUM(cases) as total_cases
+FROM
+    `{bigquery_ref}.evol_casesalltime`
+WHERE
+    Country = 'United States of America'
+GROUP BY
+    week
+ORDER BY
+    week ASC;
 """
 df_1 = client.query(query).to_dataframe()
 
@@ -41,7 +50,7 @@ GROUP BY
 ORDER BY
     week ASC;
 """
-df_2 = client.query(query).to_dataframe()
+df_1 = client.query(query).to_dataframe()
 
 
 # Build the layout for the Dash app
@@ -65,7 +74,7 @@ app.layout = html.Div(children=[
         id='line-chart',
         figure={
             'data': [
-                go.Scatter(x=df_2['week'], y=df_2['total_cases'], mode='lines', name='Line Chart')
+                go.Scatter(x=df_1['week'], y=df_1['total_cases'], mode='lines', name='Line Chart')
             ],
         'layout': {
             'title': 'USA - Evolution of cases (Weekly))'
