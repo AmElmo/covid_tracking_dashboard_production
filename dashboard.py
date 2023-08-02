@@ -72,6 +72,16 @@ ORDER BY
 """
 df_4 = client.query(query).to_dataframe()
 
+query = f"""
+SELECT *
+FROM
+    `{bigquery_ref}.total_vaccinatedpeople_country`
+ORDER BY
+    Total_vaccinations DESC
+LIMIT 20;
+"""
+df_5 = client.query(query).to_dataframe()
+
 # Build the layout for the Dash app
 # Create some random data
 
@@ -184,19 +194,59 @@ app.layout = html.Div(children=[
         }
         }
     ),
+        dcc.Graph(
+        id='bar-chart2',
+        figure={
+            'data': [
+                go.Bar(
+                    x=df_4['Country'],
+                    y=df_4['Incidence'],
+                    name='Bar Chart',
+                    hovertemplate =
+                    '<i>Total deaths</i>: %{y}'+
+                    '<br><b>Country</b>: %{x}<br>',
+                    hoverinfo='name',
+                )
+            ],
+        'layout': {
+            'title': {
+                'text': "Top countries with highest incidence of new cases last week",
+                'y':0.9,
+                'x':0.5,
+                'xanchor': 'center',
+                'yanchor': 'top',
+                'font': dict(
+                    family="Courier New, monospace",
+                    size=24,
+                    color="#7f7f7f"
+                )
+            },
+            'xaxis': {
+                'title': 'Country',
+                'gridcolor': 'lightgrey',
+            },
+            'yaxis': {
+                'title': 'Total deaths',
+                'gridcolor': 'lightgrey',
+            },
+            'plot_bgcolor': 'white',
+            'showlegend': True
+        }
+        }
+    ),
     dcc.Graph(
         id='pie-chart',
         figure={
             'data': [
                 go.Pie(
-                    labels=df_4['Country'],
-                    values=df_4['Incidence'],
+                    labels=df_5['Country'],
+                    values=df_5['Total_vaccinations'],
                     name='Pie Chart',
                 )
             ],
             'layout': {
                 'title': {
-                    'text': 'Incidence per Country',
+                    'text': 'Total Vaccinations per Country',
                     'y':0.9,
                     'x':0.5,
                     'xanchor': 'center',
