@@ -25,7 +25,7 @@ bigquery_ref = 'covid-dashboard-378011.covid_data_script'
 query = f"""
 SELECT
     EXTRACT(WEEK FROM Date_reported) AS week,
-    SUM(cases) as total_cases
+    SUM(New_cases) as total_cases
 FROM
     `{bigquery_ref}.evol_casesalltime`
 WHERE
@@ -40,17 +40,17 @@ df_1 = client.query(query).to_dataframe()
 query = f"""
 SELECT
     EXTRACT(WEEK FROM Date_reported) AS week,
-    SUM(cases) as total_cases
+    SUM(cases) as total_deaths
 FROM
-    `{bigquery_ref}.evol_casesalltime`
+    `{bigquery_ref}.evol_cumdeaths`
 WHERE
-    Country = 'United States of America'
+    Country = 'France'
 GROUP BY
     week
 ORDER BY
     week ASC;
 """
-df_1 = client.query(query).to_dataframe()
+df_2 = client.query(query).to_dataframe()
 
 
 # Build the layout for the Dash app
@@ -81,6 +81,48 @@ app.layout = html.Div(children=[
         }
         }
     ),
+    dcc.Graph(
+    id='line-chart',
+    figure={
+        'data': [
+            go.Scatter(
+                x=df_2['week'],
+                y=df_2['total_deaths'],
+                mode='lines+markers',
+                name='Line Chart',
+                line=dict(color='firebrick', width=2),
+                hovertemplate =
+                '<i>Total deaths</i>: %{y}'+
+                '<br><b>Week</b>: %{x}<br>',
+                hoverinfo='name',
+            )
+        ],
+    'layout': {
+        'title': {
+            'text': "France - Evolution of Deaths (Weekly)",
+            'y':0.9,
+            'x':0.5,
+            'xanchor': 'center',
+            'yanchor': 'top',
+            'font': dict(
+                family="Courier New, monospace",
+                size=24,
+                color="#7f7f7f"
+            )
+        },
+        'xaxis': {
+            'title': 'Week',
+            'gridcolor': 'lightgrey',
+        },
+        'yaxis': {
+            'title': 'Total cases',
+            'gridcolor': 'lightgrey',
+        },
+        'plot_bgcolor': 'white',
+        'showlegend': True
+    }
+    }
+),
     dcc.Graph(
         id='bar-chart',
         figure={
