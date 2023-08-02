@@ -58,7 +58,7 @@ SELECT Country, Cum_deathslatest
 FROM
     `{bigquery_ref}.cum_deathslatest`
 ORDER BY
-    Cum_deathslatest DESC;
+    Cum_deathslatest DESC
 LIMIT 15;
 """
 df_3 = client.query(query).to_dataframe()
