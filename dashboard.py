@@ -49,8 +49,19 @@ GROUP BY
     week
 ORDER BY
     week ASC;
+LIMIT 1000 OFFSET 1;
 """
 df_2 = client.query(query).to_dataframe()
+
+query = f"""
+SELECT Country, Cum_deathslatest
+FROM
+    `{bigquery_ref}.cum_deathslatest`
+ORDER BY
+    Cum_deathslatest DESC;
+LIMIT 15;
+"""
+df_3 = client.query(query).to_dataframe()
 
 
 # Build the layout for the Dash app
@@ -127,7 +138,7 @@ app.layout = html.Div(children=[
         id='bar-chart',
         figure={
             'data': [
-                go.Bar(x=df['Category'], y=df['Value'], name='Bar Chart')
+                go.Bar(x=df_3['Country'], y=df_3['Cum_deathslatest'], name='Bar Chart')
             ],
         'layout': {
             'title': 'My Line Chart Title'
@@ -135,13 +146,44 @@ app.layout = html.Div(children=[
         }
     ),
     dcc.Graph(
-        id='scatter-plot',
+        id='bar-chart',
         figure={
             'data': [
-                go.Scatter(x=df['X'], y=df['Y'], mode='markers', name='Scatter Plot')
+                go.Bar(
+                    x=df_3['Country'],
+                    y=df_3['Cum_deathslatest'],
+                    name='Bar Chart',
+                    marker=dict(color='rgb(158,202,225)',
+                                line=dict(color='rgb(8,48,107)',width=1.5)),
+                    hovertemplate =
+                    '<i>Total deaths</i>: %{y}'+
+                    '<br><b>Country</b>: %{x}<br>',
+                    hoverinfo='name',
+                )
             ],
         'layout': {
-            'title': 'My Line Chart Title'
+            'title': {
+                'text': "My Bar Chart Title",
+                'y':0.9,
+                'x':0.5,
+                'xanchor': 'center',
+                'yanchor': 'top',
+                'font': dict(
+                    family="Courier New, monospace",
+                    size=24,
+                    color="#7f7f7f"
+                )
+            },
+            'xaxis': {
+                'title': 'Country',
+                'gridcolor': 'lightgrey',
+            },
+            'yaxis': {
+                'title': 'Total deaths',
+                'gridcolor': 'lightgrey',
+            },
+            'plot_bgcolor': 'white',
+            'showlegend': True
         }
         }
     ),
